@@ -1,0 +1,1002 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AdArt — Where Ads Become Art</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Sans:wght@300;400;500&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0e0b07;
+    --cream: #f5f0e8;
+    --gold: #c9a84c;
+    --rust: #c24b2a;
+    --sage: #5c7a5e;
+    --muted: #8a7f72;
+    --card: #faf7f2;
+    --border: #d9d0c0;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--cream);
+    color: var(--ink);
+    font-family: 'DM Sans', sans-serif;
+    overflow-x: hidden;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.2rem 4rem;
+    background: rgba(245,240,232,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+  }
+  .logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.6rem; font-weight: 900; letter-spacing: -0.02em;
+    color: var(--ink);
+    display: flex; align-items: center; gap: 0.3rem;
+  }
+  .logo span { color: var(--rust); font-style: italic; }
+  .nav-links { display: flex; gap: 2rem; list-style: none; }
+  .nav-links a {
+    font-size: 0.85rem; font-weight: 500; letter-spacing: 0.06em;
+    text-transform: uppercase; color: var(--muted);
+    text-decoration: none; transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--ink); }
+  .nav-cta {
+    background: var(--ink); color: var(--cream);
+    padding: 0.6rem 1.4rem; border-radius: 2px;
+    font-size: 0.8rem; font-weight: 500; letter-spacing: 0.08em;
+    text-transform: uppercase; text-decoration: none;
+    transition: background 0.2s;
+  }
+  .nav-cta:hover { background: var(--rust); }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: grid; grid-template-columns: 1fr 1fr;
+    padding-top: 5rem;
+    overflow: hidden;
+  }
+  .hero-left {
+    display: flex; flex-direction: column; justify-content: center;
+    padding: 6rem 4rem 6rem 6rem;
+  }
+  .hero-tag {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.7rem; letter-spacing: 0.15em; text-transform: uppercase;
+    color: var(--rust); margin-bottom: 1.5rem;
+  }
+  .hero-tag::before {
+    content: ''; width: 2rem; height: 1px; background: var(--rust);
+  }
+  h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(3rem, 5vw, 4.5rem);
+    line-height: 1.05; font-weight: 900;
+    letter-spacing: -0.03em; margin-bottom: 1.5rem;
+  }
+  h1 em {
+    font-style: italic; color: var(--rust);
+    display: block;
+  }
+  .hero-desc {
+    font-size: 1.05rem; line-height: 1.8;
+    color: #4a4035; max-width: 480px; margin-bottom: 2.5rem;
+  }
+  .hero-btns { display: flex; gap: 1rem; align-items: center; }
+  .btn-primary {
+    background: var(--ink); color: var(--cream);
+    padding: 0.9rem 2rem; border-radius: 2px;
+    font-size: 0.85rem; font-weight: 500; letter-spacing: 0.06em;
+    text-transform: uppercase; text-decoration: none;
+    transition: all 0.2s; border: 2px solid var(--ink);
+  }
+  .btn-primary:hover { background: var(--rust); border-color: var(--rust); }
+  .btn-outline {
+    border: 2px solid var(--border); color: var(--ink);
+    padding: 0.9rem 2rem; border-radius: 2px;
+    font-size: 0.85rem; font-weight: 500; letter-spacing: 0.06em;
+    text-transform: uppercase; text-decoration: none; transition: all 0.2s;
+  }
+  .btn-outline:hover { border-color: var(--ink); }
+  .hero-right {
+    position: relative; overflow: hidden;
+    background: var(--ink);
+  }
+  .hero-art {
+    width: 100%; height: 100%;
+    display: flex; align-items: center; justify-content: center;
+    position: relative;
+  }
+  .art-canvas {
+    width: 85%; height: 85%;
+    position: relative;
+  }
+  /* Simulated art piece */
+  .art-bg {
+    width: 100%; height: 100%;
+    background: 
+      radial-gradient(ellipse at 30% 40%, #c24b2a22 0%, transparent 60%),
+      radial-gradient(ellipse at 70% 60%, #c9a84c22 0%, transparent 60%),
+      radial-gradient(ellipse at 50% 80%, #5c7a5e22 0%, transparent 50%);
+    border: 1px solid rgba(201,168,76,0.3);
+    position: relative; overflow: hidden;
+  }
+  .art-lines {
+    position: absolute; inset: 0;
+    background-image:
+      repeating-linear-gradient(0deg, transparent, transparent 39px, rgba(201,168,76,0.06) 40px),
+      repeating-linear-gradient(90deg, transparent, transparent 39px, rgba(201,168,76,0.06) 40px);
+  }
+  .art-circle {
+    position: absolute;
+    border-radius: 50%;
+    border: 1px solid rgba(201,168,76,0.4);
+  }
+  .art-circle:nth-child(1) { width: 60%; height: 60%; top: 20%; left: 20%; }
+  .art-circle:nth-child(2) { width: 40%; height: 40%; top: 30%; left: 30%; border-color: rgba(194,75,42,0.4); }
+  .art-circle:nth-child(3) { width: 20%; height: 20%; top: 40%; left: 40%; background: rgba(201,168,76,0.15); }
+  .art-diagonal {
+    position: absolute; inset: 0;
+    background: linear-gradient(135deg, transparent 45%, rgba(201,168,76,0.08) 45%, rgba(201,168,76,0.08) 55%, transparent 55%);
+  }
+  .art-text-overlay {
+    position: absolute; bottom: 1.5rem; right: 1.5rem;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.55rem; color: rgba(201,168,76,0.5);
+    letter-spacing: 0.1em; text-transform: uppercase;
+    text-align: right;
+  }
+  .art-label {
+    position: absolute; top: 1rem; left: 1rem;
+    display: flex; flex-direction: column; gap: 0.2rem;
+  }
+  .art-label span {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.5rem; color: rgba(201,168,76,0.4);
+    letter-spacing: 0.15em; text-transform: uppercase;
+  }
+  .art-label .brand-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem; font-weight: 900; font-style: italic;
+    color: rgba(201,168,76,0.7);
+  }
+  .floating-tag {
+    position: absolute; 
+    background: var(--rust); color: var(--cream);
+    padding: 0.4rem 0.8rem;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.6rem; letter-spacing: 0.1em;
+    transform: rotate(-3deg);
+  }
+  .floating-tag.t1 { top: 1.5rem; right: -0.5rem; }
+  .ratio-badge {
+    position: absolute; bottom: -1rem; left: 50%; transform: translateX(-50%);
+    display: flex; gap: 0;
+  }
+  .ratio-part {
+    padding: 0.4rem 0.8rem;
+    font-family: 'Space Mono', monospace; font-size: 0.65rem;
+    letter-spacing: 0.05em;
+  }
+  .ratio-art { background: var(--sage); color: #fff; }
+  .ratio-ad { background: var(--gold); color: var(--ink); }
+
+  /* STATS */
+  .stats {
+    display: grid; grid-template-columns: repeat(3,1fr);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+  .stat {
+    padding: 2.5rem 3rem;
+    border-right: 1px solid var(--border);
+  }
+  .stat:last-child { border-right: none; }
+  .stat-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.8rem; font-weight: 900; color: var(--rust);
+    line-height: 1;
+  }
+  .stat-label {
+    font-size: 0.8rem; color: var(--muted); margin-top: 0.4rem;
+    letter-spacing: 0.05em;
+  }
+
+  /* HOW IT WORKS */
+  .section { padding: 7rem 6rem; }
+  .section-tag {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--muted); margin-bottom: 1rem;
+  }
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 3.5vw, 3rem);
+    font-weight: 900; letter-spacing: -0.02em;
+    line-height: 1.1; margin-bottom: 1.5rem;
+  }
+  .section-title em { font-style: italic; color: var(--rust); }
+
+  .steps-grid {
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    gap: 0; margin-top: 4rem;
+    border: 1px solid var(--border);
+  }
+  .step {
+    padding: 2.5rem 2rem;
+    border-right: 1px solid var(--border);
+    position: relative;
+  }
+  .step:last-child { border-right: none; }
+  .step-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 4rem; font-weight: 900; color: var(--border);
+    line-height: 1; margin-bottom: 1rem;
+  }
+  .step-icon {
+    width: 2.5rem; height: 2.5rem; background: var(--ink);
+    border-radius: 50%; display: flex; align-items: center; justify-content: center;
+    margin-bottom: 1rem; font-size: 1rem;
+  }
+  .step h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem; font-weight: 700; margin-bottom: 0.6rem;
+  }
+  .step p { font-size: 0.85rem; line-height: 1.7; color: var(--muted); }
+
+  /* GENERATOR FORM */
+  .generator-section {
+    background: var(--ink); color: var(--cream);
+    padding: 7rem 6rem;
+  }
+  .generator-section .section-title { color: var(--cream); }
+  .generator-section .section-title em { color: var(--gold); }
+  .generator-section .section-tag { color: rgba(245,240,232,0.4); }
+
+  .form-container {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 4px;
+    padding: 3rem;
+    margin-top: 3rem;
+  }
+
+  .form-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+  }
+  .form-group { display: flex; flex-direction: column; gap: 0.5rem; }
+  .form-group.full { grid-column: 1 / -1; }
+  label {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase;
+    color: rgba(245,240,232,0.5);
+  }
+  label .required { color: var(--gold); }
+  input, select, textarea {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 2px;
+    padding: 0.75rem 1rem;
+    color: var(--cream);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.9rem;
+    transition: border-color 0.2s;
+    outline: none;
+    width: 100%;
+  }
+  input::placeholder, textarea::placeholder { color: rgba(245,240,232,0.25); }
+  input:focus, select:focus, textarea:focus {
+    border-color: var(--gold);
+    background: rgba(255,255,255,0.08);
+  }
+  select { cursor: pointer; }
+  select option { background: #1a1510; color: var(--cream); }
+  textarea { resize: vertical; min-height: 100px; }
+
+  .style-chips {
+    display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.3rem;
+  }
+  .chip {
+    padding: 0.4rem 0.9rem;
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 2px; cursor: pointer;
+    font-size: 0.75rem; font-weight: 500;
+    color: rgba(245,240,232,0.6);
+    transition: all 0.2s; user-select: none;
+  }
+  .chip:hover { border-color: var(--gold); color: var(--gold); }
+  .chip.active {
+    background: var(--gold); border-color: var(--gold);
+    color: var(--ink); font-weight: 700;
+  }
+
+  .form-divider {
+    grid-column: 1/-1;
+    border: none; border-top: 1px solid rgba(255,255,255,0.08);
+    margin: 0.5rem 0;
+  }
+  .form-section-title {
+    grid-column: 1/-1;
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem; font-style: italic;
+    color: var(--gold); margin-top: 0.5rem;
+  }
+
+  .generate-btn {
+    margin-top: 2rem;
+    width: 100%;
+    background: var(--gold); color: var(--ink);
+    padding: 1rem 2rem; border: none; border-radius: 2px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 1rem; font-weight: 700; letter-spacing: 0.06em;
+    text-transform: uppercase; cursor: pointer;
+    transition: all 0.2s; position: relative; overflow: hidden;
+  }
+  .generate-btn:hover { background: #d4b05a; transform: translateY(-1px); }
+  .generate-btn:active { transform: translateY(0); }
+  .generate-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+  /* OUTPUT */
+  #output-section {
+    display: none;
+    margin-top: 3rem;
+    border: 1px solid rgba(201,168,76,0.3);
+    border-radius: 4px; overflow: hidden;
+  }
+  .output-header {
+    background: rgba(201,168,76,0.1);
+    padding: 1rem 1.5rem;
+    display: flex; align-items: center; justify-content: space-between;
+    border-bottom: 1px solid rgba(201,168,76,0.2);
+  }
+  .output-header span {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase;
+    color: var(--gold);
+  }
+  .output-body { padding: 2rem; }
+
+  /* Ad display area */
+  #ad-display {
+    width: 100%;
+    min-height: 300px;
+    background: rgba(255,255,255,0.03);
+    border: 1px dashed rgba(201,168,76,0.2);
+    border-radius: 2px;
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 1.5rem;
+    position: relative; overflow: hidden;
+  }
+  #ad-text-output {
+    padding: 2rem;
+    font-size: 0.9rem; line-height: 1.9;
+    color: rgba(245,240,232,0.8);
+    white-space: pre-wrap;
+    font-family: 'DM Sans', sans-serif;
+    width: 100%;
+  }
+
+  .loading-bar {
+    width: 100%; height: 2px; background: rgba(255,255,255,0.05);
+    position: relative; overflow: hidden; margin-bottom: 2rem;
+    display: none;
+  }
+  .loading-bar.active { display: block; }
+  .loading-bar::after {
+    content: '';
+    position: absolute; height: 100%;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    animation: loading 1.5s ease-in-out infinite;
+    width: 40%;
+  }
+  @keyframes loading {
+    0% { left: -40%; }
+    100% { left: 140%; }
+  }
+
+  /* WHY SECTION */
+  .why-section {
+    padding: 7rem 6rem;
+    background: var(--card);
+    border-top: 1px solid var(--border);
+  }
+  .why-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 5rem; margin-top: 4rem; align-items: start;
+  }
+  .problem-list, .solution-list {
+    display: flex; flex-direction: column; gap: 1.5rem;
+  }
+  .problem-item, .solution-item {
+    display: flex; gap: 1rem; align-items: flex-start;
+  }
+  .problem-dot {
+    width: 0.5rem; height: 0.5rem; background: var(--rust);
+    border-radius: 50%; margin-top: 0.4rem; flex-shrink: 0;
+  }
+  .solution-dot {
+    width: 0.5rem; height: 0.5rem; background: var(--sage);
+    border-radius: 50%; margin-top: 0.4rem; flex-shrink: 0;
+  }
+  .item-text h4 { font-size: 0.95rem; font-weight: 600; margin-bottom: 0.2rem; }
+  .item-text p { font-size: 0.82rem; color: var(--muted); line-height: 1.6; }
+  .column-title {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase;
+    margin-bottom: 2rem; padding-bottom: 0.8rem;
+    border-bottom: 2px solid;
+  }
+  .col-problem .column-title { color: var(--rust); border-color: var(--rust); }
+  .col-solution .column-title { color: var(--sage); border-color: var(--sage); }
+
+  /* BRANDS SECTION */
+  .brands-marquee {
+    padding: 2rem 0;
+    background: var(--ink); overflow: hidden;
+    border-top: 1px solid rgba(255,255,255,0.06);
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+  .marquee-track {
+    display: flex; gap: 4rem; animation: marquee 20s linear infinite;
+    width: max-content;
+  }
+  .marquee-item {
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem; font-style: italic; font-weight: 700;
+    color: rgba(245,240,232,0.2); letter-spacing: 0.05em;
+    white-space: nowrap; flex-shrink: 0;
+  }
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+
+  /* FOOTER */
+  footer {
+    background: var(--ink); color: rgba(245,240,232,0.4);
+    padding: 3rem 6rem;
+    display: flex; align-items: center; justify-content: space-between;
+    border-top: 1px solid rgba(255,255,255,0.06);
+  }
+  .footer-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.2rem; font-weight: 900;
+    color: var(--cream);
+  }
+  .footer-logo span { color: var(--gold); font-style: italic; }
+  footer p { font-size: 0.75rem; }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .hero-left > * {
+    animation: fadeUp 0.6s ease backwards;
+  }
+  .hero-left > *:nth-child(1) { animation-delay: 0.1s; }
+  .hero-left > *:nth-child(2) { animation-delay: 0.2s; }
+  .hero-left > *:nth-child(3) { animation-delay: 0.3s; }
+  .hero-left > *:nth-child(4) { animation-delay: 0.4s; }
+
+  /* Color picker row */
+  .color-row {
+    display: flex; gap: 0.5rem; align-items: center;
+  }
+  .color-swatch {
+    width: 2rem; height: 2rem; border-radius: 50%;
+    cursor: pointer; border: 2px solid transparent;
+    transition: transform 0.15s, border-color 0.15s;
+  }
+  .color-swatch:hover { transform: scale(1.15); }
+  .color-swatch.active { border-color: var(--gold); transform: scale(1.1); }
+
+  @media (max-width: 900px) {
+    nav { padding: 1rem 1.5rem; }
+    .nav-links { display: none; }
+    .hero { grid-template-columns: 1fr; min-height: auto; }
+    .hero-right { height: 50vw; }
+    .hero-left { padding: 2rem 1.5rem; }
+    .section { padding: 4rem 1.5rem; }
+    .generator-section { padding: 4rem 1.5rem; }
+    .why-section { padding: 4rem 1.5rem; }
+    .steps-grid, .form-grid { grid-template-columns: 1fr; }
+    .stats { grid-template-columns: 1fr; }
+    .stat { border-right: none; border-bottom: 1px solid var(--border); }
+    footer { flex-direction: column; gap: 1rem; text-align: center; padding: 2rem 1.5rem; }
+    .why-grid { grid-template-columns: 1fr; gap: 3rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="logo">Ad<span>Art</span></div>
+  <ul class="nav-links">
+    <li><a href="#how">How It Works</a></li>
+    <li><a href="#why">Why AdArt</a></li>
+    <li><a href="#generate">Create</a></li>
+  </ul>
+  <a href="#generate" class="nav-cta">Create Your Ad</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-left">
+    <div class="hero-tag">India's First Art-Ad Platform</div>
+    <h1>Ads That Make <em>Cities Beautiful</em></h1>
+    <p class="hero-desc">We don't make billboards. We make murals that carry your brand. AI-crafted wall art — 60% masterpiece, 40% message — that people actually stop to photograph.</p>
+    <div class="hero-btns">
+      <a href="#generate" class="btn-primary">Create Your AdArt</a>
+      <a href="#why" class="btn-outline">See Why It Works</a>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="hero-art">
+      <div class="art-canvas" style="position:relative;">
+        <div class="art-bg">
+          <div class="art-lines"></div>
+          <div class="art-circle"></div>
+          <div class="art-circle"></div>
+          <div class="art-circle"></div>
+          <div class="art-diagonal"></div>
+          <div class="art-label">
+            <span>AdArt × Sample</span>
+            <div class="brand-name">Brand.</div>
+          </div>
+          <div class="art-text-overlay">
+            Wall · 12ft × 8ft<br>
+            Mumbai, MH
+          </div>
+          <div class="floating-tag t1">Art-Ad Piece #042</div>
+        </div>
+        <div class="ratio-badge">
+          <div class="ratio-part ratio-art">60% Art</div>
+          <div class="ratio-part ratio-ad">40% Ad</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<div class="stats">
+  <div class="stat">
+    <div class="stat-num">87%</div>
+    <div class="stat-label">Of people ignore traditional wall ads</div>
+  </div>
+  <div class="stat">
+    <div class="stat-num">3×</div>
+    <div class="stat-label">More recall for art-integrated advertising</div>
+  </div>
+  <div class="stat">
+    <div class="stat-num">₹0</div>
+    <div class="stat-label">Ugly walls. That's our mission.</div>
+  </div>
+</div>
+
+<!-- HOW IT WORKS -->
+<section class="section" id="how">
+  <div class="section-tag">The Process</div>
+  <h2 class="section-title">From Form to <em>Masterpiece</em></h2>
+  <p style="color:var(--muted); max-width:560px; line-height:1.8;">No design skills needed. No confusing prompts. Just fill our intelligent brand form and our AI — trained in design, advertising psychology, and fine art — handles the rest.</p>
+  <div class="steps-grid">
+    <div class="step">
+      <div class="step-num">01</div>
+      <div class="step-icon">📋</div>
+      <h3>Fill Brand Form</h3>
+      <p>Tell us about your brand — what you do, where the ad goes, your colors, your mood. No prompting needed. Just honest answers.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">02</div>
+      <div class="step-icon">🧠</div>
+      <h3>AI Designs Art</h3>
+      <p>Our AI, specialized in advertising psychology and fine art, creates a piece that is visually stunning first — and brilliantly branded second.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">03</div>
+      <div class="step-icon">🎨</div>
+      <h3>Artist Paints It</h3>
+      <p>Skilled local painters bring the design to life on your wall. Real craftsmanship. Real jobs. Real beauty in your city.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">04</div>
+      <div class="step-icon">📱</div>
+      <h3>People Share It</h3>
+      <p>Passersby post selfies with beautiful art — organically spreading your brand to thousands. No paid boosting needed.</p>
+    </div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="brands-marquee">
+  <div class="marquee-track">
+    <span class="marquee-item">RedBull · Art-Ad</span>
+    <span class="marquee-item">Zomato · Mural</span>
+    <span class="marquee-item">boAt · Wall Piece</span>
+    <span class="marquee-item">Mamaearth · ArtAd</span>
+    <span class="marquee-item">Nykaa · Mural</span>
+    <span class="marquee-item">Meesho · Art-Ad</span>
+    <span class="marquee-item">CRED · Wall Piece</span>
+    <span class="marquee-item">Tanishq · Mural</span>
+    <span class="marquee-item">Haldirams · ArtAd</span>
+    <span class="marquee-item">Urban Company · Mural</span>
+    <!-- duplicate for seamless loop -->
+    <span class="marquee-item">RedBull · Art-Ad</span>
+    <span class="marquee-item">Zomato · Mural</span>
+    <span class="marquee-item">boAt · Wall Piece</span>
+    <span class="marquee-item">Mamaearth · ArtAd</span>
+    <span class="marquee-item">Nykaa · Mural</span>
+    <span class="marquee-item">Meesho · Art-Ad</span>
+    <span class="marquee-item">CRED · Wall Piece</span>
+    <span class="marquee-item">Tanishq · Mural</span>
+    <span class="marquee-item">Haldirams · ArtAd</span>
+    <span class="marquee-item">Urban Company · Mural</span>
+  </div>
+</div>
+
+<!-- WHY SECTION -->
+<section class="why-section" id="why">
+  <div class="section-tag">The Problem We Solve</div>
+  <h2 class="section-title">Indian Streets Deserve <em>Better</em></h2>
+  <div class="why-grid">
+    <div class="col-problem">
+      <div class="column-title">The Problem</div>
+      <div class="problem-list">
+        <div class="problem-item">
+          <div class="problem-dot"></div>
+          <div class="item-text">
+            <h4>Ugly, Loud Wall Ads</h4>
+            <p>Cluttered, garish wall paintings that make neighborhoods look chaotic and turn people off brands.</p>
+          </div>
+        </div>
+        <div class="problem-item">
+          <div class="problem-dot"></div>
+          <div class="item-text">
+            <h4>Zero Engagement</h4>
+            <p>Nobody photographs ugly ads. Traditional wall ads get no organic social media reach whatsoever.</p>
+          </div>
+        </div>
+        <div class="problem-item">
+          <div class="problem-dot"></div>
+          <div class="item-text">
+            <h4>Declining Ad Recall</h4>
+            <p>People have trained their eyes to skip conventional ads. Loud is now invisible.</p>
+          </div>
+        </div>
+        <div class="problem-item">
+          <div class="problem-dot"></div>
+          <div class="item-text">
+            <h4>Unskilled Painters Underemployed</h4>
+            <p>Skilled muralists in India have no premium market for their craft. Most paint mediocre ads just to survive.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-solution">
+      <div class="column-title">The AdArt Solution</div>
+      <div class="solution-list">
+        <div class="solution-item">
+          <div class="solution-dot"></div>
+          <div class="item-text">
+            <h4>Art-First Design</h4>
+            <p>Every piece is designed to be genuinely beautiful. People protect and admire it instead of ignoring it.</p>
+          </div>
+        </div>
+        <div class="solution-item">
+          <div class="solution-dot"></div>
+          <div class="item-text">
+            <h4>Selfie-Worthy = Free Reach</h4>
+            <p>Stunning murals become photo backdrops. Every Instagram post is an earned impression for your brand — free.</p>
+          </div>
+        </div>
+        <div class="solution-item">
+          <div class="solution-dot"></div>
+          <div class="item-text">
+            <h4>Hidden Brand Psychology</h4>
+            <p>The brand message is woven into the art — you feel the brand before you see it. Recall is 3× higher than direct ads.</p>
+          </div>
+        </div>
+        <div class="solution-item">
+          <div class="solution-dot"></div>
+          <div class="item-text">
+            <h4>Real Jobs for Real Artists</h4>
+            <p>We pay skilled painters premium rates to execute AI-designed murals. AdArt is a social mission, not just a business.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GENERATOR FORM -->
+<section class="generator-section" id="generate">
+  <div class="section-tag">Create Your AdArt</div>
+  <h2 class="section-title">Tell Us About <em>Your Brand</em></h2>
+  <p style="color:rgba(245,240,232,0.5); max-width:560px; line-height:1.8; margin-top:0.5rem;">Not a prompt box. Not a generic AI tool. This is a briefing form for an AI that thinks like a master muralist, a branding strategist, and a fine art curator — all in one.</p>
+
+  <div class="form-container">
+    <div class="form-grid">
+      <div class="form-section-title">🏢 Brand Basics</div>
+
+      <div class="form-group">
+        <label>Brand / Company Name <span class="required">*</span></label>
+        <input type="text" id="brandName" placeholder="e.g. Chai Wala Co." />
+      </div>
+      <div class="form-group">
+        <label>Industry / What You Do <span class="required">*</span></label>
+        <input type="text" id="industry" placeholder="e.g. Artisan tea brand" />
+      </div>
+      <div class="form-group">
+        <label>City / Location of Wall <span class="required">*</span></label>
+        <input type="text" id="location" placeholder="e.g. Chandni Chowk, Delhi" />
+      </div>
+      <div class="form-group">
+        <label>Target Audience</label>
+        <input type="text" id="audience" placeholder="e.g. Young professionals, 22-35" />
+      </div>
+
+      <hr class="form-divider">
+      <div class="form-section-title">📐 Ad Specifications</div>
+
+      <div class="form-group">
+        <label>Wall Aspect Ratio / Size</label>
+        <select id="aspectRatio">
+          <option value="">Select ratio...</option>
+          <option value="landscape-wide">Landscape Wide (16:6) — Long wall</option>
+          <option value="landscape">Landscape (4:3) — Standard wall</option>
+          <option value="portrait">Portrait (3:4) — Tall narrow wall</option>
+          <option value="square">Square (1:1) — Shop shutter / gate</option>
+          <option value="panorama">Panorama (21:9) — Building side</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Ad Style / Feel</label>
+        <div class="style-chips" id="styleChips">
+          <div class="chip" data-val="minimalist">Minimalist</div>
+          <div class="chip" data-val="vibrant">Vibrant</div>
+          <div class="chip" data-val="geometric">Geometric</div>
+          <div class="chip" data-val="organic">Organic / Nature</div>
+          <div class="chip" data-val="surreal">Surreal</div>
+          <div class="chip" data-val="folk">Folk / Warli</div>
+          <div class="chip" data-val="luxury">Luxury</div>
+          <div class="chip" data-val="playful">Playful</div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Brand Primary Colors</label>
+        <div class="color-row" id="colorSwatches">
+          <div class="color-swatch active" data-color="warm" style="background:#c9a84c" title="Gold / Warm"></div>
+          <div class="color-swatch" data-color="rust" style="background:#c24b2a" title="Rust / Energy"></div>
+          <div class="color-swatch" data-color="sage" style="background:#5c7a5e" title="Sage / Natural"></div>
+          <div class="color-swatch" data-color="navy" style="background:#1a2f5e" title="Navy / Trust"></div>
+          <div class="color-swatch" data-color="blush" style="background:#e8a0a0" title="Blush / Soft"></div>
+          <div class="color-swatch" data-color="ink" style="background:#1a1510" title="Ink / Bold"></div>
+        </div>
+        <input type="text" id="brandColor" placeholder="Or type your hex color: #FF6B35" style="margin-top:0.5rem;" />
+      </div>
+      <div class="form-group">
+        <label>Special Theme (Festival / Season / Campaign)</label>
+        <input type="text" id="theme" placeholder="e.g. Diwali 2025, Monsoon, IPL Season" />
+      </div>
+
+      <hr class="form-divider">
+      <div class="form-section-title">✍️ Brand Expression</div>
+
+      <div class="form-group full">
+        <label>Describe Your Brand's Soul <span class="required">*</span></label>
+        <textarea id="brandDesc" rows="4" placeholder="Tell us everything: your brand personality, what makes you different, the feeling you want people to have, any specific symbols or imagery connected to your brand, your brand font if any, key message you want hidden in the art... The more you share, the more personal the art."></textarea>
+      </div>
+      <div class="form-group">
+        <label>Key Tagline or Message to Weave In</label>
+        <input type="text" id="tagline" placeholder="e.g. Every sip tells a story" />
+      </div>
+      <div class="form-group">
+        <label>Any Brand Color / Font Preference</label>
+        <input type="text" id="fontPref" placeholder="e.g. We use Bodoni, earthy tones" />
+      </div>
+    </div>
+
+    <button class="generate-btn" onclick="generateAd()" id="genBtn">
+      ✦ Generate My AdArt Brief
+    </button>
+  </div>
+
+  <!-- OUTPUT -->
+  <div id="output-section">
+    <div class="output-header">
+      <span>✦ Your AdArt Creative Brief</span>
+      <span id="output-meta"></span>
+    </div>
+    <div class="loading-bar" id="loadingBar"></div>
+    <div class="output-body">
+      <div id="ad-display">
+        <div id="ad-text-output"></div>
+      </div>
+      <p style="font-size:0.75rem; color:rgba(245,240,232,0.3); text-align:center; margin-top:1rem;">
+        This is your creative brief + design direction. Share it with our team to get a final mural design. → <strong style="color:var(--gold)">adart.in/submit</strong>
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div>
+    <div class="footer-logo">Ad<span>Art</span></div>
+    <p style="margin-top:0.4rem;">Making Indian streets beautiful, one wall at a time.</p>
+  </div>
+  <p>© 2025 AdArt · Panipat, Haryana 🇮🇳</p>
+</footer>
+
+<script>
+// Style chip toggle
+document.querySelectorAll('.chip').forEach(chip => {
+  chip.addEventListener('click', () => {
+    chip.classList.toggle('active');
+  });
+});
+
+// Color swatch toggle
+document.querySelectorAll('.color-swatch').forEach(swatch => {
+  swatch.addEventListener('click', () => {
+    document.querySelectorAll('.color-swatch').forEach(s => s.classList.remove('active'));
+    swatch.classList.add('active');
+  });
+});
+
+// Smooth scroll
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    e.preventDefault();
+    document.querySelector(a.getAttribute('href'))?.scrollIntoView({ behavior: 'smooth' });
+  });
+});
+
+async function generateAd() {
+  const brandName = document.getElementById('brandName').value.trim();
+  const industry = document.getElementById('industry').value.trim();
+  const location = document.getElementById('location').value.trim();
+  const audience = document.getElementById('audience').value.trim();
+  const aspectRatio = document.getElementById('aspectRatio').value;
+  const brandDesc = document.getElementById('brandDesc').value.trim();
+  const tagline = document.getElementById('tagline').value.trim();
+  const brandColor = document.getElementById('brandColor').value.trim();
+  const theme = document.getElementById('theme').value.trim();
+  const fontPref = document.getElementById('fontPref').value.trim();
+
+  const selectedStyles = [...document.querySelectorAll('.chip.active')].map(c => c.dataset.val);
+  const selectedColor = document.querySelector('.color-swatch.active')?.dataset.color || '';
+
+  if (!brandName || !industry || !location || !brandDesc) {
+    alert('Please fill in the required fields: Brand Name, Industry, Location, and Brand Description.');
+    return;
+  }
+
+  const btn = document.getElementById('genBtn');
+  btn.disabled = true;
+  btn.textContent = '✦ Designing Your Brief...';
+
+  const outputSection = document.getElementById('output-section');
+  const loadingBar = document.getElementById('loadingBar');
+  const adTextOutput = document.getElementById('ad-text-output');
+  const outputMeta = document.getElementById('output-meta');
+
+  outputSection.style.display = 'block';
+  loadingBar.classList.add('active');
+  adTextOutput.textContent = '';
+  outputSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+  const prompt = `You are AdArt's creative AI — a fusion of master muralist, Indian branding strategist, fine art curator, and advertising psychologist. 
+
+A brand has filled out our form. Generate a detailed, vivid, creative art-ad brief for them.
+
+BRAND FORM DATA:
+- Brand Name: ${brandName}
+- Industry / What They Do: ${industry}
+- Location of Wall: ${location}
+- Target Audience: ${audience || 'General public'}
+- Wall Aspect Ratio: ${aspectRatio || 'Standard landscape'}
+- Desired Art Style: ${selectedStyles.join(', ') || 'Open / AI choice'}
+- Brand Color Palette Preference: ${brandColor || selectedColor || 'AI choice'}
+- Festival / Campaign Theme: ${theme || 'None / Timeless'}
+- Brand Description & Soul: ${brandDesc}
+- Tagline to Weave In: ${tagline || 'None specified'}
+- Font / Design Preference: ${fontPref || 'None specified'}
+
+YOUR TASK:
+Generate a detailed AdArt Creative Brief in this structure:
+
+🎨 ART CONCEPT
+Describe the main visual concept — what does someone see when they look at this wall? What is the dominant artwork, the composition, the focal elements? Make it feel like a real mural description. Be specific, painterly, evocative.
+
+🌈 COLOR PALETTE
+Name 4-5 specific colors (with feel/mood for each) that will dominate this piece. Explain why they work for this brand and this location.
+
+📐 COMPOSITION & LAYOUT
+Describe how elements are arranged. Where is the art heavy? Where does the brand breathe through? How does the eye travel across the wall?
+
+🔍 HIDDEN BRAND ELEMENTS
+This is the AdArt magic — describe 2-3 clever ways the brand message, identity, or product is woven INTO the art invisibly. (e.g., the flow of a river that subtly forms the brand logo when seen from a distance, or the petals of a flower that spell out a brand initial)
+
+💡 PSYCHOLOGY & RECALL STRATEGY
+Why will people stop, photograph, and remember this? What emotional trigger does the art hit? What is the "selfie moment"?
+
+🖌️ PAINTER NOTES
+Brief technical notes for the mural artist on texture, paint style, scale, and any special techniques to make this come alive on a real wall.
+
+📲 SOCIAL MEDIA ANGLE
+Suggest 2-3 hashtag campaign ideas and describe what kind of content creators / influencers would naturally interact with this piece.
+
+Be bold, specific, and genuinely creative. This should feel like it came from a world-class creative director, not a generic AI. Reference the specific brand, city, and context throughout.`;
+
+  try {
+    let text = '';
+    // Auto-detect: Claude.ai preview uses direct API, Vercel uses secure backend
+    const isPreview = window.location.hostname.includes('claude.ai') ||
+                      window.location.protocol === 'blob:' ||
+                      window.location.hostname === '';
+
+    if (isPreview) {
+      const response = await fetch("https://api.anthropic.com/v1/messages", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          model: "claude-sonnet-4-20250514",
+          max_tokens: 1000,
+          messages: [{ role: "user", content: prompt }]
+        })
+      });
+      const data = await response.json();
+      if (!response.ok) throw new Error(data.error?.message || 'API error');
+      text = data.content?.map(b => b.text || '').join('') || '';
+    } else {
+      // Secure Vercel backend — API key never exposed to browser
+      const response = await fetch("/api/generate", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ prompt })
+      });
+      const data = await response.json();
+      if (!response.ok) throw new Error(data.error || 'Server error');
+      text = data.result || '';
+    }
+
+    if (!text) throw new Error('Empty response — please try again.');
+
+    loadingBar.classList.remove('active');
+    outputMeta.textContent = `${brandName} · ${new Date().toLocaleDateString('en-IN')}`;
+
+    // Typewriter — spread handles emoji/unicode correctly
+    adTextOutput.textContent = '';
+    const chars = [...text];
+    let i = 0;
+    const typeInterval = setInterval(() => {
+      if (i < chars.length) { adTextOutput.textContent += chars[i++]; }
+      else clearInterval(typeInterval);
+    }, 8);
+
+  } catch (err) {
+    loadingBar.classList.remove('active');
+    adTextOutput.textContent = '⚠️ Error: ' + err.message;
+  } finally {
+    btn.disabled = false;
+    btn.textContent = '✦ Generate My AdArt Brief';
+  }
+}
+</script>
+</body>
+</html>
